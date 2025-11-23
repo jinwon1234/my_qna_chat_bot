@@ -7,14 +7,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import wowa.myqna.user.domain.UserEntity;
-import wowa.myqna.user.repository.UserRepository;
 import wowa.myqna.user.service.UserLowService;
-
-import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
-public class ViewController {
+public class ChatViewController {
 
     private final UserLowService userLowService;
     @Value("${application.domain}")
@@ -29,5 +26,14 @@ public class ViewController {
         model.addAttribute("username", findUser.getUsername());
         model.addAttribute("domain", domain);
         return "link";
+    }
+
+    @GetMapping("/chat/{userId}/{roomId}")
+    public String chatPage(@PathVariable String userId, @PathVariable String roomId, Model model) {
+
+        model.addAttribute("userId", userId);
+        model.addAttribute("roomId", roomId);
+
+        return  "chat";
     }
 }
