@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import wowa.myqna.global.exception.ApplicationCustomException;
-import wowa.myqna.global.message.ErrorMessage;
 import wowa.myqna.user.domain.UserEntity;
 import wowa.myqna.user.repository.UserRepository;
 

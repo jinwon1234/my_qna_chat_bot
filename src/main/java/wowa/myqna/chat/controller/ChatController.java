@@ -11,7 +11,6 @@ import wowa.myqna.chat.dto.ChatRequestDto;
 import wowa.myqna.chat.service.ChatService;
 
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 @RestController
