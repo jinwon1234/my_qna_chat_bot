@@ -8,16 +8,23 @@
             font-family: 'Segoe UI', sans-serif;
             background-color: #e0f0ff;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
+            justify-content: flex-start;
             align-items: center;
             height: 100vh;
             margin: 0;
+            padding-top: 20px;
+        }
+
+        h2 {
+            font-size: 22px;
+            color: #084298;
+            margin-bottom: 12px;
         }
 
         #chat-container {
             width: 700px;
-            height: calc(100vh - 72px);
-            margin: 36px 0;
+            height: calc(100vh - 140px);
             background-color: white;
             border-radius: 12px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -87,7 +94,10 @@
         }
     </style>
 </head>
+
 <body>
+
+<h2>{{username}}님에게 질문하세요!</h2>
 
 <div id="chat-container">
     <div id="chat"></div>
@@ -107,19 +117,17 @@
     const roomId = "{{roomId}}"
 
     async function loadChatHistory() {
-        const response = await fetch(`/chats/history/${roomId}`, {
-            method: 'GET'
-        });
-        const messages = await response.json();
-        messages.forEach(msg => {
-            const msgDiv = document.createElement('div');
-            msgDiv.classList.add('message', msg.type === 'USER' ? 'user' : 'bot');
-            msgDiv.textContent = msg.content;
-            chatDiv.appendChild(msgDiv);
-        });
-        chatDiv.scrollTop = chatDiv.scrollHeight;
-    }
+        const response = await fetch(`/chats/history/${roomId}`)
+        const messages = await response.json()
 
+        messages.forEach(msg => {
+            const msgDiv = document.createElement('div')
+            msgDiv.classList.add('message', msg.type === 'USER' ? 'user' : 'bot')
+            msgDiv.textContent = msg.content
+            chatDiv.appendChild(msgDiv)
+        })
+        chatDiv.scrollTop = chatDiv.scrollHeight
+    }
 
     async function fetchStream(text) {
         const response = await fetch('/chats/stream', {
@@ -133,7 +141,6 @@
 
         const botMessageDiv = document.createElement('div')
         botMessageDiv.classList.add('message', 'bot')
-        botMessageDiv.textContent = ''
         chatDiv.appendChild(botMessageDiv)
         chatDiv.scrollTop = chatDiv.scrollHeight
 
@@ -153,10 +160,10 @@
         const text = inputText.value.trim()
         if (!text) return
 
-        const userMessageDiv = document.createElement('div')
-        userMessageDiv.classList.add('message', 'user')
-        userMessageDiv.textContent = text
-        chatDiv.appendChild(userMessageDiv)
+        const userMsg = document.createElement('div')
+        userMsg.classList.add('message', 'user')
+        userMsg.textContent = text
+        chatDiv.appendChild(userMsg)
 
         inputText.value = ''
 

@@ -1,23 +1,71 @@
 <!DOCTYPE html>
-<html>
+<html lang="ko">
 <head>
+    <meta charset="UTF-8">
     <title>MyQNA 개인 링크</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #e0f0ff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        #container {
+            width: 700px;
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            color: #084298;
+            margin-top: 0;
+        }
+
+        code {
+            display: inline-block;
+            background: #f0f4ff;
+            padding: 8px 12px;
+            border-radius: 8px;
+            margin-top: 8px;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 12px 18px;
+            font-size: 16px;
+            background-color: #0d6efd;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background-color: #0b5ed7;
+        }
+    </style>
 </head>
 <body>
 
-<h2>{{username}}님의 QnA 정보가 성공적으로 등록되었습니다! 아래 링크를 공유하세요!</h2>
+<div id="container">
+    <h2>{{username}}님의 QnA 정보가 성공적으로 등록되었습니다!</h2>
 
-<p>당신의 고유 링크:</p>
-<code>{{domain}}/link/{{userId}}</code>
+    <p>아래 링크를 공유하세요.</p>
 
-<p>아래 버튼을 눌러 개인 QnA 챗봇을 시작하세요.</p>
+    <code>{{domain}}/link/{{userId}}</code>
 
-<form action="/api/chats/rooms" method="POST">
-    <input type="hidden" name="userId" value="{{userId}}">
-    <button type="submit" style="padding: 12px 18px; font-size: 16px;">
-        QnA 시작하기
-    </button>
-</form>
+    <form action="/api/chats/rooms" method="POST">
+        <input type="hidden" name="userId" value="{{userId}}">
+        <button type="submit">QnA 시작하기</button>
+    </form>
+</div>
 
 </body>
 </html>

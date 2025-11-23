@@ -31,8 +31,11 @@ public class ChatViewController {
     @GetMapping("/chat/{userId}/{roomId}")
     public String chatPage(@PathVariable String userId, @PathVariable String roomId, Model model) {
 
-        model.addAttribute("userId", userId);
+        UserEntity findUser = userLowService.findById(userId);
+
+        model.addAttribute("userId", findUser.getId());
         model.addAttribute("roomId", roomId);
+        model.addAttribute("username", findUser.getUsername());
 
         return  "chat";
     }

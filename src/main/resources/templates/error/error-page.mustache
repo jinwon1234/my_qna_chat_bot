@@ -1,9 +1,40 @@
 <!DOCTYPE html>
-<html>
+<html lang="ko">
 <head>
-    <title>오류 페이지</title>
+    <meta charset="UTF-8">
+    <title>오류 발생</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #e0f0ff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        #container {
+            width: 700px;
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        p {
+            font-size: 18px;
+            color: #084298;
+            margin: 0;
+        }
+    </style>
 </head>
 <body>
-<p>{{message}}</p>
+
+<div id="container">
+    <p>{{message}}</p>
+</div>
+
 </body>
 </html>

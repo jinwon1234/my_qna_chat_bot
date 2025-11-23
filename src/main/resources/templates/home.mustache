@@ -1,23 +1,80 @@
 <!DOCTYPE html>
-<html>
+<html lang="ko">
 <head>
+    <meta charset="UTF-8">
     <title>나만의 QnA 업로드</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #e0f0ff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        #container {
+            width: 700px;
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            margin-top: 0;
+            color: #084298;
+        }
+
+        label {
+            font-size: 15px;
+            font-weight: bold;
+        }
+
+        input[type="text"], input[type="file"] {
+            width: 100%;
+            margin-top: 6px;
+            padding: 10px;
+            font-size: 14px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 12px 18px;
+            font-size: 16px;
+            background-color: #0d6efd;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background-color: #0b5ed7;
+        }
+    </style>
 </head>
 <body>
 
-<h2>나만의 QnA 챗봇 만들기</h2>
+<div id="container">
+    <h2>나만의 QnA 챗봇 만들기</h2>
 
-<form action="/api/embeddings" method="POST" enctype="multipart/form-data">
-    <label>당신의 이름</label><br>
-    <input type="text" name="myName" required />
-    <br><br>
+    <form action="/api/embeddings" method="POST" enctype="multipart/form-data">
+        <label>당신의 이름</label>
+        <input type="text" name="myName" required>
 
-    <label>PDF 파일 업로드</label><br>
-    <input type="file" name="multipartFile" accept="application/pdf" required />
-    <br><br>
+        <br><br>
 
-    <button type="submit">QnA 만들기</button>
-</form>
+        <label>PDF 파일 업로드</label>
+        <input type="file" name="multipartFile" accept="application/pdf" required>
+
+        <button type="submit">QnA 만들기</button>
+    </form>
+</div>
 
 </body>
 </html>
