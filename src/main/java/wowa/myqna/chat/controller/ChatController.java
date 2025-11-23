@@ -4,14 +4,13 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
+import wowa.myqna.chat.domain.ChatMessage;
 import wowa.myqna.chat.dto.ChatRequestDto;
 import wowa.myqna.chat.service.ChatService;
 
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -34,5 +33,13 @@ public class ChatController {
     @PostMapping("/chats/stream")
     public Flux<String> streamChat(@Valid @RequestBody ChatRequestDto chatRequestDto) {
         return chatService.generateStream(chatRequestDto);
+    }
+
+    @GetMapping("/chats/history/{roomId}")
+    public ResponseEntity<List<ChatMessage>> getChatHistory(@PathVariable String roomId) {
+
+        List<ChatMessage> response = chatService.findChatMessageByRoomId(roomId);
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 }

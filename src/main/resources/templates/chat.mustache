@@ -106,6 +106,21 @@
     const userId = "{{userId}}"
     const roomId = "{{roomId}}"
 
+    async function loadChatHistory() {
+        const response = await fetch(`/chats/history/${roomId}`, {
+            method: 'GET'
+        });
+        const messages = await response.json();
+        messages.forEach(msg => {
+            const msgDiv = document.createElement('div');
+            msgDiv.classList.add('message', msg.type === 'USER' ? 'user' : 'bot');
+            msgDiv.textContent = msg.content;
+            chatDiv.appendChild(msgDiv);
+        });
+        chatDiv.scrollTop = chatDiv.scrollHeight;
+    }
+
+
     async function fetchStream(text) {
         const response = await fetch('/chats/stream', {
             method: 'POST',
