@@ -70,11 +70,22 @@
         <br><br>
 
         <label>PDF 파일 업로드</label>
-        <input type="file" name="multipartFile" accept="application/pdf" required>
+        <input type="file" id="pdfFile" name="multipartFile" accept="application/pdf" required>
 
         <button type="submit">QnA 만들기</button>
     </form>
 </div>
 
 </body>
+<script>
+    document.getElementById("pdfFile").addEventListener("change", function (event) {
+        const file = event.target.files[0];
+        const maxSize = 10 * 1024 * 1024; // 10MB
+
+        if (file && file.size > maxSize) {
+            alert("PDF 파일 업로드는 10MB까지 가능합니다.");
+            event.target.value = "";
+        }
+    });
+</script>
 </html>

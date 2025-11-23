@@ -14,14 +14,14 @@ import org.springframework.web.multipart.MultipartFile;
 import wowa.myqna.embedding.dto.EmbeddingRequestDto;
 import wowa.myqna.embedding.dto.EmbeddingResponseDto;
 import wowa.myqna.global.exception.ApplicationCustomException;
-import wowa.myqna.global.message.ErrorMessage;
 import wowa.myqna.user.domain.UserEntity;
-import wowa.myqna.user.repository.UserRepository;
 import wowa.myqna.user.service.UserLowService;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
+
+import static wowa.myqna.global.message.ErrorMessage.*;
 
 @Transactional
 @Service
@@ -31,13 +31,32 @@ public class EmbeddingService {
     private final VectorStore vectorStore;
     private final PdfDocumentReaderConfig pdfDocumentReaderConfig;
     private final UserLowService userLowService;
+    private static final int MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
 
 
     public EmbeddingResponseDto embeddingPdf(EmbeddingRequestDto myQnaRequestDto) {
 
+        MultipartFile file = myQnaRequestDto.multipartFile();
+        String username = myQnaRequestDto.myName();
+
+        List<Document> chunks = getDocuments(file);
+
+        String uuid = UUID.randomUUID().toString();
+
+        chunks.forEach(doc -> doc.getMetadata().put("owner", uuid));
+
+        vectorStore.accept(chunks);
+
+        userLowService.save(new UserEntity(uuid, username));
+
+        return new EmbeddingResponseDto(uuid, username);
+    }
+
+    private List<Document> getDocuments(MultipartFile file)  {
         try {
-            MultipartFile file = myQnaRequestDto.multipartFile();
-            String username = myQnaRequestDto.myName();
+            if (file.getSize() > MAX_FILE_SIZE) {
+                throw new ApplicationCustomException(EXCEED_MAX_FILE_SIZE);
+            }
 
             Resource resource = new InputStreamResource(file.getInputStream());
             PagePdfDocumentReader pdfReader = new PagePdfDocumentReader(resource, pdfDocumentReaderConfig);
@@ -46,20 +65,9 @@ public class EmbeddingService {
 
             TokenTextSplitter splitter = new TokenTextSplitter(500, 200, 50, 5000, true);
             List<Document> chunks = splitter.apply(documents);
-
-
-            String uuid = UUID.randomUUID().toString();
-
-            chunks.forEach(doc -> doc.getMetadata().put("owner", uuid));
-
-            vectorStore.accept(chunks);
-
-            userLowService.save(new UserEntity(uuid, username));
-
-            return new EmbeddingResponseDto(uuid, username);
-
+            return chunks;
         } catch (IOException e) {
-            throw new ApplicationCustomException(ErrorMessage.PDF_FILE_UPLOAD_ERROR);
+            throw new ApplicationCustomException(PDF_FILE_UPLOAD_ERROR);
         }
     }
 
