@@ -42,6 +42,8 @@ dependencies {
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 
 	implementation 'org.springframework.ai:spring-ai-pdf-document-reader'
+
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
 }
 
 dependencyManagement {

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>MyQNA 개인 링크</title>
+</head>
+<body>
+
+<h2>{{username}}님의 QnA 정보가 성공적으로 등록되었습니다! 아래 링크를 공유하세요!</h2>
+
+<p>당신의 고유 링크:</p>
+<code>{{domain}}/link/{{userId}}</code>
+
+<p>아래 버튼을 눌러 개인 QnA 챗봇을 시작하세요.</p>
+
+<form action="/api/chatroom" method="POST">
+    <input type="hidden" name="userId" value="{{userId}}">
+    <button type="submit" style="padding: 12px 18px; font-size: 16px;">
+        QnA 시작하기
+    </button>
+</form>
+
+</body>
+</html>

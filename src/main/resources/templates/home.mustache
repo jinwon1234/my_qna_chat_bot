@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>나만의 QnA 업로드</title>
+</head>
+<body>
+
+<h2>나만의 QnA 챗봇 만들기</h2>
+
+<form action="/api/embeddings" method="POST" enctype="multipart/form-data">
+    <label>당신의 이름</label><br>
+    <input type="text" name="myName" required />
+    <br><br>
+
+    <label>PDF 파일 업로드</label><br>
+    <input type="file" name="multipartFile" accept="application/pdf" required />
+    <br><br>
+
+    <button type="submit">QnA 만들기</button>
+</form>
+
+</body>
+</html>
