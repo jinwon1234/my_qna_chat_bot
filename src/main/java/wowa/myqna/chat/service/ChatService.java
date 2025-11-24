@@ -4,9 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.vectorstore.QuestionAnswerAdvisor;
 import org.springframework.ai.chat.memory.ChatMemory;
-import org.springframework.ai.chat.messages.AssistantMessage;
-import org.springframework.ai.chat.messages.MessageType;
-import org.springframework.ai.chat.messages.UserMessage;
+import org.springframework.ai.chat.messages.*;
 import org.springframework.ai.chat.prompt.Prompt;
 import org.springframework.ai.vectorstore.SearchRequest;
 import org.springframework.ai.vectorstore.VectorStore;
@@ -14,7 +12,10 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import wowa.myqna.chat.domain.ChatMessage;
 import wowa.myqna.chat.dto.ChatRequestDto;
+import wowa.myqna.user.domain.UserEntity;
+import wowa.myqna.user.service.UserLowService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -25,6 +26,8 @@ public class ChatService {
     private final VectorStore vectorStore;
     private final ChatMemory chatMemory;
     private final ChatMessageLowService chatMessageLowService;
+    private final UserLowService userLowService;
+    private static final String USER_SYSTEM_MESSAGE = "는 질문받는 사람의 이름";
 
 
     public Flux<String> generateStream(ChatRequestDto chatRequestDto) {
@@ -32,6 +35,8 @@ public class ChatService {
         String text = chatRequestDto.text();
         String userId = chatRequestDto.userId();
         String roomId = chatRequestDto.roomId();
+
+        UserEntity user = userLowService.findById(userId);
 
         saveUserMessage(roomId, text);
 
@@ -43,7 +48,12 @@ public class ChatService {
                         .build())
                 .build();
 
-        Prompt prompt = new Prompt(chatMemory.get(roomId));
+        List<Message> messages = new ArrayList<>();
+
+        messages.addAll(chatMemory.get(roomId));
+        messages.add(new SystemMessage(user.getUsername() +  USER_SYSTEM_MESSAGE));
+
+        Prompt prompt = new Prompt(messages);
 
         StringBuffer messageBuffer = new StringBuffer();
 
