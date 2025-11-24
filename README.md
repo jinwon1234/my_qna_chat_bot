@@ -3,6 +3,7 @@
 
 **🔗 서비스 URL**: https://myqna.jinwon.click  
 **🔗 간단 체험 URL(우테코 자소서 기반 QnA 챗봇)** https://myqna.jinwon.click/link/36c06871-bd21-44b8-81b2-baf7e1b653d9
+<br>
 **🔗 MyQnA 제작을 위한 학습 일지** https://www.notion.so/MyQnA-2b53af6c79c8806aad65e4eb6ad72658?source=copy_link
 
 `MyQnA`는 사용자가 업로드한 PDF 문서를 기반으로 **나만의 QnA 챗봇**을 생성해주는 서비스입니다.  
